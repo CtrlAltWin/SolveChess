@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+:root {
+  /* LIGHT THEME (SolveChess Blue) */
+  --color-primary: #3978D4;
+  --color-primary-hover: #2865BD;
+  --color-bg: #F1F4F9;
+  --color-surface: #FFFFFF;
+  --color-card-bg: #FFFFFF;
+  --color-modal-bg: #FFFFFF;
+  --color-surface-secondary: #F7F9FC;
+  --color-active-bg: #E5EEFC;
+  --color-active-text: #285FA8;
+  --color-secondary-btn: #E8EDF4;
+  --color-secondary-btn-hover: #D8DFE9;
+  --color-primary-text: #252B36;
+  --color-secondary-text: #737E8D;
+  --color-border: #DFE5ED;
+  /* Chessboard squares remain authentic Chess.com green */
+  --board-light: #EEEED2;
+  --board-dark: #769656;
+}
+
+html.dark, :root.dark {
+  /* DARK THEME (SolveChess Blue) */
+  --color-primary: #4B8FE8;
+  --color-primary-hover: #68A2F0;
+  --color-bg: #20242C;
+  --color-surface: #272D37;
+  --color-card-bg: #272D37;
+  --color-modal-bg: #272D37;
+  --color-surface-secondary: #303744;
+  --color-active-bg: #30435F;
+  --color-active-text: #91B9F2;
+  --color-secondary-btn: #353D49;
+  --color-secondary-btn-hover: #414B59;
+  --color-primary-text: #F3F5F8;
+  --color-secondary-text: #AAB3C0;
+  --color-border: #414B59;
+  /* Chessboard squares remain authentic Chess.com green */
+  --board-light: #EEEED2;
+  --board-dark: #769656;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-primary-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Custom themed scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary-text);
+}
+
+/* Theme utility classes */
+.bg-chess-app {
+  background-color: var(--color-bg);
+}
+
+.bg-chess-card {
+  background-color: var(--color-card-bg);
+}
+
+.bg-chess-modal {
+  background-color: var(--color-modal-bg);
+}
+
+.bg-chess-surface {
+  background-color: var(--color-surface-secondary);
+}
+
+.text-chess-primary {
+  color: var(--color-primary-text);
+}
+
+.text-chess-secondary {
+  color: var(--color-secondary-text);
+}
+
+.border-chess {
+  border-color: var(--color-border);
+}
+
+/* Persistent Dark Header (used for navigation and headers in both Light and Dark modes) */
+.header-dark {
+  background-color: #272D37 !important;
+  border-color: #414B59 !important;
+  color: #F3F5F8 !important;
+}
+
+.header-dark .text-chess-primary {
+  color: #F3F5F8 !important;
+}
+
+.header-dark .text-chess-secondary {
+  color: #AAB3C0 !important;
+}
+
+.header-dark .border-chess {
+  border-color: #414B59 !important;
+}
+
+.header-dark .bg-chess-card,
+.header-dark .bg-chess-surface {
+  background-color: #20242C !important;
+}
+
+.header-dark .btn-chess-secondary {
+  background-color: #353D49 !important;
+  color: #F3F5F8 !important;
+  border-color: #414B59 !important;
+}
+
+.header-dark .btn-chess-secondary:hover:not(:disabled) {
+  background-color: #414B59 !important;
+  border-color: #4E5969 !important;
+}
+
+.header-dark .nav-pill-active {
+  background-color: #30435F !important;
+  color: #91B9F2 !important;
+  border-color: rgba(75, 143, 232, 0.4) !important;
+}
+
+.header-dark .nav-pill-inactive {
+  color: #AAB3C0 !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.header-dark .nav-pill-inactive:hover {
+  color: #FFFFFF !important;
+  background-color: #303744 !important;
+  border-color: transparent !important;
+}
+
+/* Standardized Button Hierarchy */
+
+/* 1. Primary Button: Solid Blue for Important Actions */
+.btn-chess-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.btn-chess-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+.btn-chess-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn-chess-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 2. Secondary Button: Neutral Surface for Supporting Actions */
+.btn-chess-secondary {
+  background-color: var(--color-secondary-btn);
+  color: var(--color-primary-text);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+.btn-chess-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-btn-hover);
+}
+.btn-chess-secondary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn-chess-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 3. Tertiary Button: Transparent for Low-Priority / Icon Controls */
+.btn-chess-tertiary {
+  background-color: transparent;
+  color: var(--color-secondary-text);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+.btn-chess-tertiary:hover:not(:disabled) {
+  background-color: var(--color-surface-secondary);
+  color: var(--color-primary-text);
+}
+.btn-chess-tertiary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn-chess-tertiary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Alias for backwards compatibility */
+.btn-chess-surface {
+  background-color: var(--color-secondary-btn);
+  color: var(--color-primary-text);
+  border: 1px solid var(--color-border);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+}
+.btn-chess-surface:hover:not(:disabled) {
+  background-color: var(--color-secondary-btn-hover);
+}
+.btn-chess-surface:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Segmented Navigation Pills */
+.nav-pill-active {
+  background-color: var(--color-active-bg);
+  color: var(--color-active-text);
+  font-weight: 600;
+  border: 1px solid rgba(75, 143, 232, 0.35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.nav-pill-inactive {
+  color: var(--color-secondary-text);
+  background-color: transparent;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+.nav-pill-inactive:hover {
+  color: var(--color-primary-text);
+  background-color: var(--color-surface-secondary);
+}
+
+/* ==========================================================================
+   Stockfish Superpower Power-Up Animations
+   ========================================================================== */
+
+/* Expanding energy ring around engine core */
+@keyframes engine-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(1.4);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+.animate-energy-ring {
+  animation: engine-pulse-ring 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* Glowing energy core */
+@keyframes engine-core-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(75, 143, 232, 0.4), 0 0 24px rgba(75, 143, 232, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(75, 143, 232, 0.8), 0 0 40px rgba(75, 143, 232, 0.4);
+    transform: scale(1.06);
+  }
+}
+.animate-core-glow {
+  animation: engine-core-glow 1.2s ease-in-out infinite;
+}
+
+/* Active running pulse */
+@keyframes subtle-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+.animate-engine-pulse {
+  animation: subtle-pulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* High-tech charging bar */
+@keyframes charge-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.engine-charging-bar {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    #91B9F2 50%,
+    var(--color-primary) 100%
+  );
+  background-size: 200% 100%;
+  animation: charge-shimmer 1.5s linear infinite;
+}
+
+/* Subtle line fade-in */
+@keyframes lineFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-line-fade-in {
+  animation: lineFadeIn 0.22s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-energy-ring,
+  .animate-core-glow,
+  .animate-engine-pulse,
+  .engine-charging-bar,
+  .animate-line-fade-in {
+    animation: none !important;
+    transition: none !important;
+  }
+}
